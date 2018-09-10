@@ -20,13 +20,20 @@ $(function(){
     var octopus = {
         addNewNote: function(noteStr) {
             model.add({
-                content: noteStr
+                content: noteStr,
+                // add date to notes
+                dateSubmitted: Date.now()
             });
             view.render();
         },
 
+        // getNotes: function() {
+        //     return model.getAllNotes();
+        // },
+
+        // to display notes in reverse order
         getNotes: function() {
-            return model.getAllNotes();
+            return model.getAllNotes().reverse();
         },
 
         init: function() {
@@ -51,9 +58,10 @@ $(function(){
         render: function(){
             var htmlStr = '';
             octopus.getNotes().forEach(function(note){
-                htmlStr += '<li class="note">'+
+                htmlStr += '<li class="note">'+ '<span class="note-date">' + new Date(note.dateSubmitted).toString() + '</span>' +
                         note.content +
                     '</li>';
+                    // use and add date methods to change the way the date is displayed
             });
             this.noteList.html( htmlStr );
         }
@@ -61,3 +69,6 @@ $(function(){
 
     octopus.init();
 });
+
+// run this to clear data
+// localStorage.clear()
